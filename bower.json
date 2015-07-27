@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "keywords": [
     "web-components",
-    "polymer"
+    "polymer",
+    "authentication",
+    "auth"
   ],
   "license": "MIT",
   "description": "Polymer v1 app authentication",
