@@ -12,7 +12,7 @@ var YarnBehaviors = YarnBehaviors || {};
   var AUTH_FINISHED = 'finished';
 
   /**
-  The `YarnAuthBehavior` mixin should be used to add authentication state to an app.
+  This behavior should be used to add authentication state to an app.
   It is loosely inspired by hapi's authentication.
 
   Simply implement `_login` such that the `yarn-auth-attempt` event will fire with
@@ -20,7 +20,9 @@ var YarnBehaviors = YarnBehaviors || {};
   authentication info is obtained, and `_logout` such that the `yarn-auth-logout-attempt`
   event will fire with `success` details provided once the logout attempt is completed.
 
-  You may then use `login` to authenticate a user.  The arguments to `login` will be delegated to `_login`.
+  You may then use `login` and `logout` to handle user authentication.  The arguments
+  of `login` will be delegated to `_login`, and respectively those of `logout`
+  will be delegated to `_logout`.
 
   Authentication info is maintained in `state.auth`, including the properties:
   - `statuses`- an object containing status constants.
