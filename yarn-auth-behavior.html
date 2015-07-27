@@ -2,6 +2,8 @@
 <link rel="import" href="../yarn-state-behavior/yarn-state-behavior.html">
 
 <script>
+var YarnBehaviors = YarnBehaviors || {};
+
 (function() {
 
   var AUTH_STARTED = 'started';
@@ -26,10 +28,10 @@
   - `credentials`- a mixed variable containing information about the logged-in user, otherwise `null`.
   - `artifacts`- a mixed variable containing any miscellaneous information left-over from the logging-in process, otherwise `null`.
 
-  @polymerBehavior Polymer.YarnAuthBehavior
+  @polymerBehavior YarnBehaviors.AuthBehavior
   */
 
-  Polymer.YarnAuthBehaviorImpl = {
+  YarnBehaviors.AuthBehaviorImpl = {
 
     /**
      * Should fire with `success`, `credentials`, and (optional) `artifacts` details
@@ -54,7 +56,7 @@
     /**
      * @event yarn-auth-logout-pre
      */
-   
+
     /**
      * @event yarn-auth-logout
      */
@@ -93,7 +95,7 @@
       'yarn-auth-attempt': '_handleAuthObtained',
       'yarn-auth-logout-attempt': '_handleLogoutAttempt'
     },
-    
+
     attached: function() {
 
       if (typeof this.state.auth === 'undefined') {
@@ -115,7 +117,7 @@
         throw new Error('YarnAuthBehavior `state.auth` namespace is already in use.');
       }
     },
-    
+
     /**
      * Manually set credentials and artifacts for a logged-in user.
      */
@@ -152,10 +154,10 @@
       this.set('state.auth.artifacts', null);
       this.set('state.auth.isAuthenticated', false);
       this.set('state.auth.status', this.authStatuses.AUTH_FINISHED);
-      
+
       this.fire('yarn-auth-logout');
     },
-    
+
     /**
      * Delegates to `_login` and maintains authentication status.
      */
@@ -164,12 +166,12 @@
       this.set('state.auth.status', this.authStatuses.AUTH_WAITING);
       this._login.apply(this, arguments);
     },
-    
+
     /**
      * Delegates to `_logout` and maintains authentication status.
      */
     logout: function() {
-    
+
       this.set('state.auth.status', this.authStatuses.AUTH_WAITING_LOGOUT);
       this._logout.apply(this, arguments);
     },
@@ -186,7 +188,7 @@
                       'such that it is guaranteed the ' +
                       '`yarn-auth-attempt` event will fire.');
     },
-    
+
     /**
      * A method that must be implemented such that
      * the `yarn-auth-logout-attempt` event will fire
@@ -205,7 +207,7 @@
     _handleAuthObtained: function(e) {
 
       var details = e.detail;
-      
+
       this.set('state.auth.status', this.authStatuses.AUTH_FINISHED);
 
       if (!details.success) {
@@ -228,13 +230,13 @@
     _handleLogoutAttempt: function(e) {
 
       var details = e.detail;
-      
+
       this.set('state.auth.status', this.authStatuses.AUTH_FINISHED);
 
       if (!details.success) {
 
         this.fire('yarn-auth-logout-failure');
-        
+
         return;
       }
 
@@ -245,9 +247,9 @@
   };
 
   // Compose behaviors
-  Polymer.YarnAuthBehavior = [
-    Polymer.YarnStateBehavior,
-    Polymer.YarnAuthBehaviorImpl
+  YarnBehaviors.AuthBehavior = [
+    YarnBehaviors.StateBehavior,
+    YarnBehaviors.AuthBehaviorImpl
   ];
 
 })();
